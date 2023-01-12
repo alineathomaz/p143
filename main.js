@@ -36,7 +36,7 @@ ball = {
 
 function startGame() {
   
-  GameStatus = "start";
+  game_status = "start";
   document.getElementById("status").innerHTML = "O jogo está carregando";
 }
 
@@ -67,8 +67,8 @@ function setup() {
 
 function gotPoses(results) {
 if(results.length > 0) {
-  rightWristX = results[0].pose.rightWrist.X;
-  rightWristY = results[0].pose.rightWrist.Y;
+  rightWristX = results[0].pose.rightWrist.x;
+  rightWristY = results[0].pose.rightWrist.y;
 
   scoreRightWrist = results[0].pose.keypoints[10].score;
   console.log(scoreRightWrist);
@@ -77,23 +77,25 @@ if(results.length > 0) {
 
 function draw() {
 
-if(game_status == "start")
-{
-  background(0);
-}
-if (scoreRightWrist > 0.2) {
-  fill("#Ffa500");
-  stroke("#Ffa500");
-  circle(rightWristX, rightWristY, 30);
-}
+  if(game_status == "start")
+  {
+    background(0);
+    image(video, 0, 0, 700, 550);
 
-  fill("black");
-  stroke("black");
-  rect(680, 0, 20, 700);
+    fill("black");
+    stroke("black");
+    rect(680,0,20,700);
 
-  fill("black");
-  stroke("black");
-  rect(0, 0, 20, 700);
+    fill("black");
+    stroke("black");
+    rect(0,0,20,700);
+  
+  
+   if (scoreRightWrist > 0.2) {
+     fill("#Ffa500");
+     stroke("#Ffa500");
+     circle(rightWristX, rightWristY, 30);
+   }
 
   //Chamar a função paddleInCanvas() 
   paddleInCanvas();
@@ -109,7 +111,7 @@ if (scoreRightWrist > 0.2) {
   //Raquete do computador
   fill("#FFA500");
   stroke("#FFA500");
-  paddle2y = ball.y - paddle2Height / 2;
+  var paddle2y = ball.y - paddle2Height / 2;
   rect(paddle2Y, paddle2y, paddle2, paddle2Height, 100);
 
   //Chamar a função midline()
@@ -123,14 +125,14 @@ if (scoreRightWrist > 0.2) {
 
   //Chamar a função move() (muito importante para o jogo)
   move();
+  }
 }
-
 
 
 //Função reset() para quando a bola não colidir com a raquete
 function reset() {
   ball.x = width / 2 + 100,
-    ball.y = height / 2 + 100;
+  ball.y = height / 2 + 100;
   ball.dx = 3;
   ball.dy = 3;
 
@@ -140,7 +142,7 @@ function reset() {
 //Função midline() para desenhar uma linha no centro do canvas
 function midline() {
   for (i = 0; i < 480; i += 10) {
-    y = 0;
+    var y = 0;
     fill("white");
     stroke(0);
     rect(width / 2, y + i, 10, 480);
